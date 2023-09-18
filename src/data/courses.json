@@ -14,7 +14,7 @@
   {
     "dept": "CIS",
     "number": 121,
-    "title": "Programming Languages and Techniques I",
+    "title": "Programming Languages and Techniques II",
     "prereqs": ["CIS 120", "CIS 160"],
     "description": "This is a course about Algorithms and Data Structures using the JAVA programming language. We introduce the basic concepts about complexity of an algorithm and methods on how to compute the running time of algorithms. Then, we describe data structures like stacks, queues, maps, trees, and graphs, and we construct efficient algorithms based on these representations. The course builds upon existing implementations of basic data structures in JAVA and extends them for the structures like trees, studying the performance of operations on such structures, and their efficiency when used in real-world applications. A large project introducing students to the challenges of software engineering concludes the course."
   },
@@ -41,7 +41,7 @@
   {
     "dept": "CIS",
     "number": 160,
-    "title": "Mathematical Foundations of Computer Scienc",
+    "title": "Mathematical Foundations of Computer Science",
     "description": "What are the basic mathematical concepts and techniques needed in computer science? This course provides an introduction to proof principles and logics, functions and relations, induction principles, combinatorics and graph theory, as well as a rigorous grounding in writing and reading mathematical proofs."
   },
   {
@@ -323,7 +323,7 @@
     "dept": "CIS",
     "number": 497,
     "title": "Senior Project (DMD Students only)",
-    "prereqs": "Senior standing or permission of instructor",
+    "prereqs": ["Senior standing or permission of instructor"],
     "description": "The goal of this course is to provide an opportunity for seniors to define, design, and execute a project of your own choosing that demonstrates the technical skills and abilities that you have acquired during your 4 years as undergraduates. Evaluation is based on selecting an interesting topic, completing appropriate research on the state of the art in that area, communicating your objectives in writing and in presentations, accurately estimating what resources will be required to complete your chosen task, coding necessary functionality, and executing your plan."
   }
 ]
