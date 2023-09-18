@@ -1,5 +1,5 @@
 import courses from '../data/courses.json';
-import { Box, Text, SimpleGrid, List, ListItem, ListIcon, IconButton, VStack, Center, Input, useToast, useDisclosure } from '@chakra-ui/react'
+import { Box, Text, SimpleGrid, List, ListItem, ListIcon, IconButton, VStack, Center, Input, useToast } from '@chakra-ui/react'
 import { useState, useEffect } from "react";
 import Nav from './Nav';
 import { useQuery } from '../lib/useQuery';
@@ -30,7 +30,6 @@ export default function Courses(){
   function showMoreInfo(number:number, index: number){
     setInfoClasses(infoClasses => [...infoClasses, number]);
   }
-
   function showLessInfo(number:number, index: number){
     setInfoClasses(infoClasses.filter(item => item !== number))
   }
@@ -74,9 +73,10 @@ export default function Courses(){
     </Center>
 
     <SimpleGrid minChildWidth='320px' spacing='42px'>
-      {(courses.map((course, index) => ((""+course["number"]).includes(searchText) && 
-        <Box position={"relative"} bg={"lightblue"} height={"fit-content"} px={5} pt={2} key={index} borderRadius={5}>
-          <Text fontSize={20} fontWeight={"bold"}>
+      {(courses.map((course, index) => (((""+course["number"]).includes(searchText) || 
+      (course["title"].toLowerCase().includes(searchText.toLowerCase()) || (course["description"].toLowerCase().includes(searchText.toLowerCase())))) && 
+        <Box boxShadow={"lg"} position={"relative"} bg={"lightblue"} height={"fit-content"} px={5} pt={2} key={index} borderRadius={5}>
+          <Text fontSize={20} fontWeight={"600"}>
             {course["dept"]}
             {' '}
             {course["number"]}
@@ -87,36 +87,31 @@ export default function Courses(){
           <>
             <Text color={"blackAlpha.800"} mt={2}>Prerequisites: </Text>
             <List>
-              {course["prereqs"] && course["prereqs"].map((prereq) => (
-                <ListItem>
+              {course["prereqs"] && course["prereqs"].map((prereq, ind) => (
+                <ListItem key={ind}>
                   <ListIcon as={MdLabel} color="green.500"/>
                   {prereq}
                 </ListItem>
               )) }
           </List></>}
-
-              {
-                infoClasses.includes(course["number"]) &&
-                <>
-                  <Text color="blackAlpha.800" mt={2}>
-                    {course["description"]}
-                  </Text>
-                  
-                  {course["cross-listed"] && 
-                    <>
-                    <Text fontWeight={"bold"} mt={2}>Cross Listed Courses: </Text>
-                    <List>
-
-                      {course["cross-listed"].map((cross) => (
-                        <ListItem>
-                          <ListIcon as={MdCheckCircle} color="green.500"/>
-                          {cross}
-                        </ListItem>
-                      )) }
-                  </List></>}
+            <Box height={infoClasses.includes(course["number"]) ? "auto" : "80px"} overflowY={"hidden"}>
+              <Text color="blackAlpha.800" mt={2}>
+                {course["description"]}
+              </Text>
               
-                </>
-              }
+              {course["cross-listed"] && 
+                <>
+                <Text fontWeight={"bold"} mt={2}>Cross Listed Courses: </Text>
+                <List>
+
+                  {course["cross-listed"].map((cross) => (
+                    <ListItem>
+                      <ListIcon as={MdCheckCircle} color="green.500"/>
+                      {cross}
+                    </ListItem>
+                  )) }
+              </List></>}
+              </Box>
               <Center>
             <Box id={""+index} p={2} _hover={{cursor: "pointer"}} onClick={() => infoClasses.includes(course["number"]) ? showLessInfo(course["number"], index) : showMoreInfo(course["number"], index)}>
               {infoClasses.includes(course["number"]) ? <ChevronUpIcon/> : <ChevronDownIcon/>}

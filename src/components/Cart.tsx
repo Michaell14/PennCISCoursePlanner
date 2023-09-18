@@ -35,7 +35,7 @@ export default function Cart( {cartClasses} : {cartClasses : number[]}) {
           <DrawerBody>
             {cartClasses.length ? (courses.map((course, index) => (
               cartClasses.includes(course["number"]) &&
-              <Box p={2} mb={2} key={index} height={"fit-content"} border={"1px solid grey"} borderRadius={3} onMouseEnter={e => {setShowDelete(course["number"])}} onMouseLeave={e => {setShowDelete(0)}}>
+              <Box bgColor={"blackAlpha.100"} boxShadow={"base"} p={2} mb={2} key={index} height={"fit-content"} border={"1px solid grey"} borderRadius={3} onMouseEnter={e => {setShowDelete(course["number"])}} onMouseLeave={e => {setShowDelete(0)}}>
                 <Text fontWeight={"600"}>{course["dept"]} {course["number"]}</Text>
                 <Text fontSize="sm">{course["title"]}</Text>
               </Box>

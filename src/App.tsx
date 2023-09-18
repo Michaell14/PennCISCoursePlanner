@@ -1,5 +1,6 @@
 import './App.css';
 import Courses from './components/Courses';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         padding: '0 calc(1rem + 10%)',
       }}>
         <Courses />
+        <Footer/>
       </div>
     </>
   );
