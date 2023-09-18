@@ -10,7 +10,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-
+//React Router initial setup
 const router = createBrowserRouter([
   {
     path: "/",

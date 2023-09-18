@@ -1,10 +1,11 @@
 import courses from '../data/courses.json';
-import { Box, Text, SimpleGrid, List, ListItem, ListIcon, IconButton, VStack, Center, Input, useToast } from '@chakra-ui/react'
+import { Box, Text, SimpleGrid, List, ListItem, Tooltip, ListIcon, IconButton, VStack, Center, Input, useToast } from '@chakra-ui/react'
 import { useState, useEffect } from "react";
 import Nav from './Nav';
 import { useQuery } from '../lib/useQuery';
 import { DeleteIcon, AddIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
-import {MdCheckCircle, MdLabel} from "react-icons/md";
+import {MdCheckCircle } from "react-icons/md";
+import Prereqs from './Prereqs';
 
 export default function Courses(){
 
@@ -14,6 +15,7 @@ export default function Courses(){
   const toast = useToast();
   const query = useQuery();
 
+  //Grabs the classes from the query parameters from the Checkout page
   useEffect(() => {
     const q=query.get("classes")
     if (q){
@@ -26,16 +28,20 @@ export default function Courses(){
     }
   }, [])
 
-
+  //Expands a class description 
   function showMoreInfo(number:number, index: number){
     setInfoClasses(infoClasses => [...infoClasses, number]);
   }
+
+  //Shrinks a class description
   function showLessInfo(number:number, index: number){
     setInfoClasses(infoClasses.filter(item => item !== number))
   }
 
+  //Adds a class to the cart
   function addClass(number: number){
-
+    
+    //Checks if cart is at max capacity. Won't allow client to add more classes.
     if (cartClasses.length>=7){
       toast({ title: "Maximum Class Capacity.",
         description: "You can have at most 7 classes in your cart!",
@@ -50,6 +56,7 @@ export default function Courses(){
     }
   }
 
+  //Removes a class from the Cart
   function removeClass(number: number){
     setClasses(cartClasses.filter(item => item !== number))
     toast({ title: "CIS " + number + " has been removed from Cart",
@@ -60,7 +67,7 @@ export default function Courses(){
 
   return (
   <>
-    <Nav cartClasses={cartClasses} {...setClasses}/>
+    <Nav cartClasses={cartClasses}/>
     <Center mt={5} mb={9} textAlign={"center"}>
       <VStack>
         <Text fontSize={50} fontWeight={"bold"}>Search for a CIS Class</Text>
@@ -72,7 +79,10 @@ export default function Courses(){
       </VStack>
     </Center>
 
+    {/* Grid of all the CIS classes with all the details from the JSON file */}
     <SimpleGrid minChildWidth='320px' spacing='42px'>
+      
+      {/* Basic course info */}
       {(courses.map((course, index) => (((""+course["number"]).includes(searchText) || 
       (course["title"].toLowerCase().includes(searchText.toLowerCase()) || (course["description"].toLowerCase().includes(searchText.toLowerCase())))) && 
         <Box boxShadow={"lg"} position={"relative"} bg={"lightblue"} height={"fit-content"} px={5} pt={2} key={index} borderRadius={5}>
@@ -83,22 +93,13 @@ export default function Courses(){
           </Text>
           <Text fontWeight={"bold"}>{course["title"]}</Text>
 
-          {course ["prereqs"] && 
-          <>
-            <Text color={"blackAlpha.800"} mt={2}>Prerequisites: </Text>
-            <List>
-              {course["prereqs"] && course["prereqs"].map((prereq, ind) => (
-                <ListItem key={ind}>
-                  <ListIcon as={MdLabel} color="green.500"/>
-                  {prereq}
-                </ListItem>
-              )) }
-          </List></>}
+          {course["prereqs"] && <Prereqs prereqs={course["prereqs"]}/>}
             <Box height={infoClasses.includes(course["number"]) ? "auto" : "80px"} overflowY={"hidden"}>
               <Text color="blackAlpha.800" mt={2}>
                 {course["description"]}
               </Text>
               
+              {/* Cross-listed classes*/}
               {course["cross-listed"] && 
                 <>
                 <Text fontWeight={"bold"} mt={2}>Cross Listed Courses: </Text>
@@ -117,16 +118,22 @@ export default function Courses(){
               {infoClasses.includes(course["number"]) ? <ChevronUpIcon/> : <ChevronDownIcon/>}
             </Box>
           </Center>
+
+          {/* Add/Remove button -> Turn into a component */}
           {cartClasses.includes(course["number"]) ? (
-            <IconButton aria-label='Delete Class' 
-            colorScheme={"red"} icon={<DeleteIcon/>}
-            top={2} size={"sm"} right={2} position={'absolute'} 
-            onClick={() => removeClass(course["number"])}/>
+            <Tooltip label="Remove this Class from Cart" placement="top">
+              <IconButton aria-label='Delete Class' 
+              colorScheme={"red"} icon={<DeleteIcon/>}
+              top={2} size={"sm"} right={2} position={'absolute'} 
+              onClick={() => removeClass(course["number"])}/>
+            </Tooltip>
           ) : (
-            <IconButton aria-label='Add Class' 
-            colorScheme={"teal"} icon={<AddIcon/>}
-            top={2} size={"sm"} right={2} position={'absolute'} 
-            onClick={() => addClass(course["number"])}/>
+            <Tooltip label="Add this Class to Cart" placement="top">
+              <IconButton aria-label='Add Class' 
+              colorScheme={"teal"} icon={<AddIcon/>}
+              top={2} size={"sm"} right={2} position={'absolute'} 
+              onClick={() => addClass(course["number"])}/>
+            </Tooltip>
           )}
           
         </Box>
