@@ -28,6 +28,10 @@ export default function Courses(){
     }
   }, [])
 
+  //------------------------------------------------------------
+  //For expanding and shrinking the class descriptions, I wanted to animate the action. However,
+  //I found that I didn't have enough time to research into animation to feel confident about learning it.
+  //Instead, I focused more on writing clean code and completing the necessary components of this project.
   //Expands a class description 
   function showMoreInfo(number:number, index: number){
     setInfoClasses(infoClasses => [...infoClasses, number]);
@@ -41,6 +45,10 @@ export default function Courses(){
   //Adds a class to the cart
   function addClass(number: number){
     
+    //--------------------------------------------------------------------------------
+    //I feel like Toasts are underutilized in most websites. IMO, they are a good and quick way
+    //to let the client know if something loaded or didn't. That's why I chose to use toasts in this project
+    //to quickly notify the client of updates and changes.
     //Checks if cart is at max capacity. Won't allow client to add more classes.
     if (cartClasses.length>=7){
       toast({ title: "Maximum Class Capacity.",
@@ -105,8 +113,8 @@ export default function Courses(){
                 <Text fontWeight={"bold"} mt={2}>Cross Listed Courses: </Text>
                 <List>
 
-                  {course["cross-listed"].map((cross) => (
-                    <ListItem>
+                  {course["cross-listed"].map((cross, ind) => (
+                    <ListItem key={ind}>
                       <ListIcon as={MdCheckCircle} color="green.500"/>
                       {cross}
                     </ListItem>
@@ -119,7 +127,7 @@ export default function Courses(){
             </Box>
           </Center>
 
-          {/* Add/Remove button -> Turn into a component */}
+          {/* Add/Remove button -> It would be a good idea to turn this into a component */}
           {cartClasses.includes(course["number"]) ? (
             <Tooltip label="Remove this Class from Cart" placement="top">
               <IconButton aria-label='Delete Class' 

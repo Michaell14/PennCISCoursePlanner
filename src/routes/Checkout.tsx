@@ -1,8 +1,7 @@
 import courses from '../data/courses.json';
 import { Box, Text, VStack, Button, Center } from '@chakra-ui/react'
-import { useMemo } from "react";
 import Prereqs from '../components/Prereqs';
-import { BrowserRouter as Router, Link, useLocation} from "react-router-dom";
+import { BrowserRouter as Router, Link} from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useQuery } from '../lib/useQuery';
 
