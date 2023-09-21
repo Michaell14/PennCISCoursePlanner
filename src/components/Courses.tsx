@@ -88,7 +88,7 @@ export default function Courses(){
     </Center>
 
     {/* Grid of all the CIS classes with all the details from the JSON file */}
-    <SimpleGrid minChildWidth='320px' spacing='42px'>
+    <SimpleGrid minChildWidth={"calc(1rem + 40%)"} spacing='42px'>
       
       {/* Basic course info */}
       {(courses.map((course, index) => (((""+course["number"]).includes(searchText) || 

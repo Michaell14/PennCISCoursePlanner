@@ -5,10 +5,10 @@ import Footer from './components/Footer';
 function App() {
   return (
     <>
-      <div style={{
+      <div className="main" style={{
         width: '100%',
         boxSizing: 'border-box',
-        padding: '0 calc(1rem + 10%)',
+        padding: '0 calc(1rem + 7%)',
       }}>
         <Courses />
         <Footer/>
